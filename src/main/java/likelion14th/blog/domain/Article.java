@@ -1,9 +1,11 @@
-package likelion14th.blog;
+package likelion14th.blog.domain;
 
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -12,7 +14,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article {
-
     @Id // id 필드를 기본키(Primary Key)로 지정
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본키를 자동으로 1씩 증가
     @Column(updatable = false)
@@ -42,7 +43,11 @@ public class Article {
     }
 
     public void update(String title, String content){
-        this.title=title;
-        this.content=content;
+        if(title != null) {
+            this.title=title;
+        }
+        if(content != null) {
+            this.content=content;
+        }
     }
 }
