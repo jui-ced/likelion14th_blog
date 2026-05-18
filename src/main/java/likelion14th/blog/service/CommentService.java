@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -26,5 +28,15 @@ public class CommentService {
 
        CommentResponse response = CommentResponse.of(article.getId(), comment);
        return response;
+    }
+
+    @Transactional(readOnly = true)
+    public List<CommentResponse> getComments(Long articleId){
+        List<Comment> comments = commentRepository.findByArticleId(articleId);
+
+        List<CommentResponse> responses = comments.stream()
+                .map(comment -> CommentResponse.of(articleId, comment))
+                .toList();
+        return responses;
     }
 }
