@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import likelion14th.blog.domain.Article;
 import likelion14th.blog.domain.Comment;
 import likelion14th.blog.dto.response.CommentResponse;
+import likelion14th.blog.exception.ArticleNotFoundException;
 import likelion14th.blog.repository.ArticleRepository;
 import likelion14th.blog.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,7 @@ public class CommentService {
     private final ArticleRepository articleRepository;
 
     public CommentResponse addComment(String content, String author, Long articleId) {
-        Article article = articleRepository.findById(articleId).orElseThrow(() -> new EntityNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new ArticleNotFoundException("해당 ID의 게시글을 찾을 수 없습니다."));
 
        Comment comment = new Comment(author, content, article);
        commentRepository.save(comment);
